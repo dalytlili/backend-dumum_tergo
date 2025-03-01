@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     },
     genre: {
         type: String,
-        required: true
+        required: false
     },
     email: {
         type: String,
@@ -16,11 +16,12 @@ const userSchema = new mongoose.Schema({
     },
     mobile: {
         type: String,
-        required: true
+        required: false
     },
-    password: {
-        type: String,
-        required: true
+    googleId: { type: String, unique: true, sparse: true }, // sparse permet d'accepter null
+    password: { 
+        type: String, 
+        required: function() { return !this.googleId; } // ✅ Le mot de passe est requis seulement si googleId est absent
     },
     is_verified: {
         type: Number,
